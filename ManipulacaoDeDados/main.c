@@ -123,8 +123,10 @@ void lerEleitores(const char* nomeArquivo) {
         fscanf(file, "%s", comissao[i].cpf);
         comissao[i].votou = false; 
         comissao[i].codigoTC = -1; 
-    fclose(file);
+    }
+    fclose(file);  
 }
+
 
 bool validarCPF(const char* cpf) {
     
