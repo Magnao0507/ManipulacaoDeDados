@@ -225,15 +225,13 @@ void entrarVoto() {
         }
     }
 
-    // Se o CPF não foi encontrado, adicioná-lo à lista de eleitores e ao arquivo
     printf("CPF não encontrado na comissão. Adicionando novo eleitor...\n");
     adicionarEleitor(cpf);
     
-    // Adiciona o novo eleitor à lista em memória
     strcpy(comissao[qtdeEleitores].cpf, cpf);
     comissao[qtdeEleitores].votou = false; 
     comissao[qtdeEleitores].codigoTC = -1; 
-    qtdeEleitores++; // Incrementa a quantidade de eleitores
+    qtdeEleitores++; 
 }
 
 void gerarResultado(const char* nomeArquivo) {
