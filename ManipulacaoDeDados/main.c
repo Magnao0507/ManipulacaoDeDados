@@ -29,15 +29,15 @@ typedef struct Aluno {
 
 typedef struct TC {
     int codigo;
-    int autor; 
-    int orientador; 
+    int autor;
+    int orientador;
     char titulo[MAX_NOME];
-    int qtdeVotos; 
+    int qtdeVotos;
 } TC;
 
 typedef struct Eleitor {
     char cpf[MAX_CPF];
-    bool votou; 
+    bool votou;
     int codigoTC;
 } Eleitor;
 
@@ -60,7 +60,7 @@ void lerProfessores(const char* nomeArquivo) {
         exit(1);
     }
 
-    fscanf(file, "%d", &qtdeDocentes); 
+    fscanf(file, "%d", &qtdeDocentes);
     for (int i = 0; i < qtdeDocentes; i++) {
         fscanf(file, "%d %s %d %[^\n]",
                &docentes[i].codigo,
@@ -78,7 +78,7 @@ void lerAlunos(const char* nomeArquivo) {
         exit(1);
     }
 
-    fscanf(file, "%d", &qtdeFormandos); 
+    fscanf(file, "%d", &qtdeFormandos);
     for (int i = 0; i < qtdeFormandos; i++) {
         fscanf(file, "%d %d %s %d %[^\n]",
                &formandos[i].matricula,
@@ -97,14 +97,14 @@ void lerTCs(const char* nomeArquivo) {
         exit(1);
     }
 
-    fscanf(file, "%d", &qtdeTCs); 
+    fscanf(file, "%d", &qtdeTCs);
     for (int i = 0; i < qtdeTCs; i++) {
         fscanf(file, "%d %d %d %[^\n]",
                &listaTCs[i].codigo,
                &listaTCs[i].autor,
                &listaTCs[i].orientador,
                listaTCs[i].titulo);
-        listaTCs[i].qtdeVotos = 0; 
+        listaTCs[i].qtdeVotos = 0;
     }
     fclose(file);
 }
@@ -116,20 +116,20 @@ void lerEleitores(const char* nomeArquivo) {
         exit(1);
     }
 
-    fscanf(file, "%d", &qtdeEleitores); 
+    fscanf(file, "%d", &qtdeEleitores);
     for (int i = 0; i < qtdeEleitores; i++) {
         fscanf(file, "%s", comissao[i].cpf);
-        comissao[i].votou = false; 
-        comissao[i].codigoTC = -1; 
+        comissao[i].votou = false;
+        comissao[i].codigoTC = -1;
     }
-    fclose(file);  
+    fclose(file);
 }
 
 bool validarCPF(const char* cpf) {
     if (strlen(cpf) != 14 || cpf[3] != '.' || cpf[7] != '.' || cpf[11] != '-') {
         return false;
     }
-    return true; 
+    return true;
 }
 
 void adicionarEleitor(const char* cpf) {
@@ -146,15 +146,15 @@ void adicionarEleitor(const char* cpf) {
 
 void mostrarMenu() {
     printf("MENU\n");
-    printf("a) Iniciar nova votação\n");
-    printf("b) Continuar votação gravada\n");
+    printf("a) Iniciar nova votacao\n");
+    printf("b) Continuar votacao gravada\n");
 }
 
 void mostrarMenuVotacao() {
-    printf("MENU DE VOTAÇÃO\n");
+    printf("MENU DE VOTACAO\n");
     printf("a) Entrar com voto\n");
-    printf("b) Suspender votação\n");
-    printf("c) Concluir votação\n");
+    printf("b) Suspender votacao\n");
+    printf("c) Concluir votacao\n");
 }
 
 void gerarRelatorioVotos(const char* nomeArquivo) {
@@ -179,7 +179,7 @@ void gerarRelatorioVotos(const char* nomeArquivo) {
     }
 
     fclose(file);
-    printf("Relatório de votos gerado com sucesso: %s\n", nomeArquivo);
+    printf("Relatorio de votos gerado com sucesso: %s\n", nomeArquivo);
 }
 
 void entrarVoto() {
@@ -188,8 +188,8 @@ void entrarVoto() {
     scanf("%s", cpf);
 
     if (!validarCPF(cpf)) {
-        printf("CPF inválido!\n");
-        return; 
+        printf("CPF invalido!\n");
+        return;
     }
 
     bool eleitorEncontrado = false;
@@ -198,20 +198,20 @@ void entrarVoto() {
             eleitorEncontrado = true;
 
             if (comissao[i].votou) {
-                printf("Erro: Este CPF já votou.\n");
-                return; 
+                printf("Erro: Este CPF ja votou.\n");
+                return;
             }
 
             int codigoTC;
-            printf("Digite o código do TC para votar: ");
+            printf("Digite o codigo do TC para votar: ");
             scanf("%d", &codigoTC);
 
             bool tcValido = false;
             for (int j = 0; j < qtdeTCs; j++) {
                 if (listaTCs[j].codigo == codigoTC) {
                     listaTCs[j].qtdeVotos++;
-                    comissao[i].votou = true; 
-                    comissao[i].codigoTC = codigoTC; 
+                    comissao[i].votou = true;
+                    comissao[i].codigoTC = codigoTC;
                     printf("Voto computado com sucesso!\n");
                     tcValido = true;
                     break;
@@ -219,19 +219,19 @@ void entrarVoto() {
             }
 
             if (!tcValido) {
-                printf("Erro: Código do TC inválido.\n");
+                printf("Erro: Codigo do TC invalido.\n");
             }
-            return; 
+            return;
         }
     }
 
-    printf("CPF não encontrado na comissão. Adicionando novo eleitor...\n");
+    printf("CPF nao encontrado na comissao. Adicionando novo eleitor...\n");
     adicionarEleitor(cpf);
-    
+
     strcpy(comissao[qtdeEleitores].cpf, cpf);
-    comissao[qtdeEleitores].votou = false; 
-    comissao[qtdeEleitores].codigoTC = -1; 
-    qtdeEleitores++; 
+    comissao[qtdeEleitores].votou = false;
+    comissao[qtdeEleitores].codigoTC = -1;
+    qtdeEleitores++;
 }
 
 void gerarResultado(const char* nomeArquivo) {
@@ -254,7 +254,7 @@ void gerarResultado(const char* nomeArquivo) {
         if (listaTCs[i].qtdeVotos == maxVotos) {
             fprintf(file, "Codigo: %d\n", listaTCs[i].codigo);
             fprintf(file, "Titulo: %s\n", listaTCs[i].titulo);
-           
+
             for (int j = 0; j < qtdeFormandos; j++) {
                 if (formandos[j].matricula == listaTCs[i].autor) {
                     fprintf(file, "Aluno: %s\n", formandos[j].pes.nome);
@@ -262,7 +262,7 @@ void gerarResultado(const char* nomeArquivo) {
                     break;
                 }
             }
-           
+
             for (int j = 0; j < qtdeDocentes; j++) {
                 if (docentes[j].codigo == listaTCs[i].orientador) {
                     fprintf(file, "Orientador: %s\n", docentes[j].pes.nome);
@@ -295,7 +295,7 @@ void gerarResultado(const char* nomeArquivo) {
 void continuarVotacao(const char* nomeArquivo) {
     FILE *file = fopen(nomeArquivo, "r");
     if (file == NULL) {
-        printf("Arquivo %s não encontrado. Retornando ao menu principal.\n", nomeArquivo);
+        printf("Arquivo %s nao encontrado. Retornando ao menu principal.\n", nomeArquivo);
         return;
     }
 
@@ -305,7 +305,7 @@ void continuarVotacao(const char* nomeArquivo) {
         char cpf[MAX_CPF];
         int codigoTC;
         fscanf(file, "%s %d", cpf, &codigoTC);
-        
+
         for (int j = 0; j < qtdeEleitores; j++) {
             if (strcmp(comissao[j].cpf, cpf) == 0) {
                 comissao[j].votou = true;
@@ -322,12 +322,12 @@ void continuarVotacao(const char* nomeArquivo) {
     }
 
     fclose(file);
-    printf("Votação continuada com sucesso.\n");
+    printf("Votacao continuada com sucesso.\n");
 }
 
 int main() {
-    setlocale(LC_ALL, "pt_BR.UTF-8");
-    
+    (LC_ALL, "Portuguese");
+
     lerProfessores("professor.txt");
     lerAlunos("aluno.txt");
     lerTCs("TC_BCC.txt");
@@ -335,54 +335,54 @@ int main() {
 
     char opcao;
     mostrarMenu();
-    printf("Escolha uma opção: ");
+    printf("Escolha uma opcao: ");
     scanf(" %c", &opcao);
 
     if (opcao == 'a' || opcao == 'A') {
         while (true) {
             mostrarMenuVotacao();
-            printf("Escolha uma opção: ");
+            printf("Escolha uma opcao: ");
             char opcaoVotacao;
             scanf(" %c", &opcaoVotacao);
 
             if (opcaoVotacao == 'a' || opcaoVotacao == 'A') {
                 entrarVoto();
             } else if (opcaoVotacao == 'b' || opcaoVotacao == 'B') {
-                printf("Votação suspensa.\n");
+                printf("Votacao suspensa.\n");
                 gerarRelatorioVotos("parcial.txt");
-                break; 
+                break;
             } else if (opcaoVotacao == 'c' || opcaoVotacao == 'C') {
-                printf("Votação concluída.\n");
-                gerarResultado("resultado.txt"); 
-                break; 
+                printf("Votacao concluida.\n");
+                gerarResultado("resultado.txt");
+                break;
             } else {
-                printf("Opção inválida. Tente novamente.\n");
+                printf("Opcao invalida. Tente novamente.\n");
             }
         }
     } else if (opcao == 'b' || opcao == 'B') {
         continuarVotacao("parcial.txt");
         while (true) {
             mostrarMenuVotacao();
-            printf("Escolha uma opção: ");
+            printf("Escolha uma opcao: ");
             char opcaoVotacao;
             scanf(" %c", &opcaoVotacao);
 
             if (opcaoVotacao == 'a' || opcaoVotacao == 'A') {
                 entrarVoto();
             } else if (opcaoVotacao == 'b' || opcaoVotacao == 'B') {
-                printf("Votação suspensa.\n");
-                gerarRelatorioVotos("parcial.txt"); 
-                break; 
+                printf("Votacao suspensa.\n");
+                gerarRelatorioVotos("parcial.txt");
+                break;
             } else if (opcaoVotacao == 'c' || opcaoVotacao == 'C') {
-                printf("Votação concluída.\n");
-                gerarResultado("resultado.txt"); 
-                break; 
+                printf("Votacao concluida.\n");
+                gerarResultado("resultado.txt");
+                break;
             } else {
-                printf("Opção inválida. Tente novamente.\n");
+                printf("Opcao invalida. Tente novamente.\n");
             }
         }
     } else {
-        printf("Opção inválida. O programa será encerrado.\n");
+        printf("Opcao invalida. O programa sera encerrado.\n");
     }
 
     return 0;
