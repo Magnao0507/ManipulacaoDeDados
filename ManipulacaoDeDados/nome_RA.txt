@@ -1,2 +1,7 @@
-ARTHUR MAGNO CANO GARCIA - G774191 - SI4P33
+ARTHUR MAGNO CANO GARCIA - G774191 - SI4P33 - QUEM ENTREGOU
 RYAN ANRY BETTINI FEROLLA LUNARDI PEREIRA - G8390E1 - SIP4P33
+
+OBS: Professora, tentamos de tudo para colocar os caracteres especiais, como acento agúdo ou "ç",
+mas não conseguimos colocar.
+Vimos várias soluções em diversos sites e fóruns. Tentamos o <locale.h> mas não foi, tentamos o (LC_ALL, "Portuguese")/(LC_ALL, "pt-br")/(LC_ALL, "UTF-8") e também não foi, mexemos nas configurações da IDE (Code Blocks/Visual Studio) e mesmo assim não foi.
+Em um dos fóruns vimos que talvez o problema fosse nas nossas maquinas, então optamos por tirar do código todos os caracteres especiais e enviar através desse arquivo .txt o motivo de não aparecer nenhum caractere especial quando rodamos o código.
